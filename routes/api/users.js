@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator/check');
+const config = require('config');
 
 const User = require('../../models/User');
 
@@ -28,8 +30,6 @@ router.post('/', [
         // See if user exists -> Send back an error
 
         let user = await User.findOne({email: email});
-
-        console.log(user);
 
         if (user) {
             return res.status(400).json({errors: [{msg: "User already exists"}]});
@@ -62,8 +62,21 @@ router.post('/', [
 
         // Return jsonwebtoken -> Because we want the user to get logged in right after she registers
 
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
 
-        res.send('User Registered');
+        jwt.sign(
+            payload, 
+            config.get('jwtSecret'),
+            { expiresIn: 36000},
+            (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            }
+        );
 
     } catch (err) {
         console.error(err.message);

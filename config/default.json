@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://tuna123:KeQtr3WowRd0XOSy@devconnector.62a4f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://tuna123:KeQtr3WowRd0XOSy@devconnector.62a4f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }
