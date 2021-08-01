@@ -52,7 +52,7 @@ router.post('/', [
         
         // Encrypt the password
 
-        const salt = await bcrypt.genSalt(10);        
+        const salt = await bcrypt.genSalt(10);
 
         user.password = await bcrypt.hash(password, salt);
 
@@ -60,7 +60,7 @@ router.post('/', [
 
         await user.save();
 
-        // Return jsonwebtoken -> Because we want the user to get logged in right after she registers
+        // Return jsonwebtoken -> Because we want the user to get logged in right after he/she registers
 
         const payload = {
             user: {
@@ -71,7 +71,7 @@ router.post('/', [
         jwt.sign(
             payload, 
             config.get('jwtSecret'),
-            { expiresIn: 36000},
+            { expiresIn: 36000 },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
