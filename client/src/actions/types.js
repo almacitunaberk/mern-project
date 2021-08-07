@@ -17,3 +17,4 @@ export const ALL_PROFILES_FETCHED = "ALL_PROFILES_FETCHED";
 export const GET_GITHUB_REPO = "GET_GITHUB_REPO";
 export const GET_POSTS = "GET_POSTS";
 export const POST_ERROR = "POST_ERROR";
+export const UPDATE_LIKES = "UPDATE_LIKES";
