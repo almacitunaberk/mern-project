@@ -21,7 +21,7 @@ const ProfileAbout = ({ profile: { bio, skills, user: { name } }}) => {
           </div>
         </div>
     )
-}
+};
 
 ProfileAbout.propTypes = {
     profile: PropTypes.object.isRequired,
