@@ -6,7 +6,8 @@ const request = require('request');
 const config = require('config');
 
 const Profile = require('../../models/Profile');
-const USer = require('../../models/User');
+const User = require('../../models/User');
+const Post = require('../../models/Post');
 const { route } = require('./users');
 
 // @route   GET api/profile/me
@@ -63,9 +64,11 @@ router.post('/', [auth, [
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
-    if (skills) {
+    if (Array.isArray(skills)) {
+        profileFields.skills = skills;        
+    } else {
         profileFields.skills = skills.split(',').map(skill => skill.trim());
-    }    
+    }
 
     // Build Social Object
     profileFields.social = {}
@@ -136,7 +139,8 @@ router.get('/user/:user_id', async (req, res) => {
 // @acess   Private
 router.delete('/', auth, async (req, res) => {
     try {
-        // @TODO: Remove user's posts
+        // Remove user's posts
+        await Post.deleteMany({ user: req.user.id });
 
         // Remove Profile
         await Profile.findOneAndRemove({ user: req.user.id });
