@@ -22,7 +22,6 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
             <Spinner />
         ): (
             <Fragment>
-                profile
                 <Link to="/profiles" className="btn btn-light">
                     Back To Profiles
                 </Link>
