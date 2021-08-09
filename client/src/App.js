@@ -30,7 +30,7 @@ if (localStorage.token) {
 function App() {
 
   useEffect(() => {
-    store.dispatch(loadUser);
+    store.dispatch(loadUser());    
   }, []);
 
   return (
