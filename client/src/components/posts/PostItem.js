@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { addLike, removeLike } from "../../actions/post";
+import { addLike, removeLike, deletePost } from "../../actions/post";
 
-const PostItem = ({ addLike, removeLike, auth, post: { _id, text, name, avatar, user, likes, comments, date } }) => {
+const PostItem = ({ deletePost, addLike, removeLike, auth, post: { _id, text, name, avatar, user, likes, comments, date } }) => {
 
     const handleLikePost = (e) => {
         e.preventDefault();
@@ -16,6 +16,11 @@ const PostItem = ({ addLike, removeLike, auth, post: { _id, text, name, avatar, 
         e.preventDefault();
         removeLike(_id);
     } 
+
+    const handlePostDelete = (e) => {
+        e.preventDefault();
+        deletePost(_id);
+    }
 
     return (
         <div className="post bg-white p-1 my-1">
@@ -51,7 +56,7 @@ const PostItem = ({ addLike, removeLike, auth, post: { _id, text, name, avatar, 
               )}
             </Link>
             { !auth.loading && auth.user._id === user && (
-                <button type="button" className="btn btn-danger">
+                <button onClick={handlePostDelete} type="button" className="btn btn-danger">
                     <i className="fas fa-times"></i>
                 </button> 
             )}            
@@ -65,6 +70,7 @@ PostItem.propTypes = {
     auth: PropTypes.object.isRequired,
     addLike: PropTypes.func.isRequired,
     removeLike: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -73,5 +79,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     addLike,
-    removeLike
+    removeLike,
+    deletePost
 })(PostItem);
