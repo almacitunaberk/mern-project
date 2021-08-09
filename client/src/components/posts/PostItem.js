@@ -5,7 +5,13 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import { addLike, removeLike, deletePost } from "../../actions/post";
 
-const PostItem = ({ deletePost, addLike, removeLike, auth, post: { _id, text, name, avatar, user, likes, comments, date } }) => {
+const PostItem = ({ 
+    deletePost, 
+    addLike, 
+    removeLike, 
+    auth, 
+    post: { _id, text, name, avatar, user, likes, comments, date },
+    showAcitons }) => {
 
     const handleLikePost = (e) => {
         e.preventDefault();
@@ -41,28 +47,36 @@ const PostItem = ({ deletePost, addLike, removeLike, auth, post: { _id, text, na
              <p className="post-date">
                 Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
             </p>
-            <button onClick={handleLikePost} type="button" className="btn btn-light">
-              <i className="fas fa-thumbs-up">{' '}</i>
-              {likes.length > 0 && (
-                <span>{likes.length}</span>
-              )}
-            </button>
-            <button onClick={handleDislikePost} type="button" className="btn btn-light">
-              <i className="fas fa-thumbs-down"></i>
-            </button>
-            <Link to={`/post/${_id}`} className="btn btn-primary">
-              Discussion { comments.length > 0 && (
-                  <span className='comment-count'>{comments.length}</span>
-              )}
-            </Link>
-            { !auth.loading && auth.user._id === user && (
-                <button onClick={handlePostDelete} type="button" className="btn btn-danger">
-                    <i className="fas fa-times"></i>
-                </button> 
-            )}            
+            {showAcitons && 
+            <Fragment>
+                <button onClick={handleLikePost} type="button" className="btn btn-light">
+                    <i className="fas fa-thumbs-up">{' '}</i>
+                    {likes.length > 0 && (
+                        <span>{likes.length}</span>
+                    )}
+                </button>
+                <button onClick={handleDislikePost} type="button" className="btn btn-light">
+                    <i className="fas fa-thumbs-down"></i>
+                </button>
+                <Link to={`/posts/${_id}`} className="btn btn-primary">
+                    Discussion { comments.length > 0 && (
+                        <span className='comment-count'>{comments.length}</span>
+                    )}
+                </Link>
+                { !auth.loading && auth.user._id === user && (
+                    <button onClick={handlePostDelete} type="button" className="btn btn-danger">
+                        <i className="fas fa-times"></i>
+                    </button> 
+                )}
+            </Fragment>
+            }                        
           </div>
         </div>
     )
+};
+
+PostItem.defaultProps = {
+    showAcitons: true
 }
 
 PostItem.propTypes = {
